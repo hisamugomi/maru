@@ -6,6 +6,18 @@
 import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import { useRef } from 'react'
+import { Button } from "@/components/ui/button"
+
+export function ButtonRounded() {
+          return (
+            <div className="flex justify-center">
+              <Button className="rounded-full">Get Started</Button>
+              {/* <Button variant="outline" size="icon" className="rounded-full"> */}
+                {/* <ArrowUpIcon /> */}
+              {/* </Button> */}
+            </div>
+          )
+        }
 
 // The 3D shape that spins in the background.
 // To change the shape, swap <icosahedronGeometry> for any Three.js geometry.
@@ -44,9 +56,9 @@ export default function Hero() {
       <div className="relative z-10 pointer-events-none">
         {/* TODO: Update the headline and tagline */}
         <h1 className="text-6xl font-bold tracking-tight mb-4">Maru</h1>
-        <p className="text-lg text-gray-400 max-w-md">
-          Closing the gap between design and business.
-        </p>
+        
+        <ButtonRounded/>
+
       </div>
 
     </section>
