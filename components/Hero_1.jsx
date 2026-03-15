@@ -12,7 +12,7 @@ import { BoxGeometry, MeshBasicMaterial } from 'three'
 export function ButtonRounded() {
   return (
     <div className="flex justify-center">
-      <Button className="rounded-full" onClick={() => document.getElementById('project').scrollIntoView({ behavior:"smooth"})}>Get Started</Button>
+      <Button className="rounded-full">Get Started</Button>
     </div>
   )
 }
@@ -21,25 +21,53 @@ export function ButtonRounded() {
 // To change the shape, swap <icosahedronGeometry> for any Three.js geometry.
 // To change the look, edit the color or remove "wireframe" below.
 function Shape() {
-  const sphere = useRef()
+  const mug = useRef()
   const wire_frame = useRef()
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime()
-    sphere.current.rotation.y += 0.001
+    mug.current.rotation.x = Math.sin(t * 0.5) * 0.0015
+    mug.current.rotation.z = Math.sin(t * 0.3) * 0.001
+    mug.current.rotation.y += 0.0006
     wire_frame.current.rotation.y += 0.0002
     wire_frame.current.rotation.x += 0.0002
   })
 
   return (
-    <group ref={sphere}>
+    <group ref={mug}>
+      {/* Mug body — open-ended cylinder */}
       <mesh>
-        <torusGeometry args={[1, 0.09, 32, 100,10]} />
-        <MeshWobbleMaterial color="silver" factor={0.5} speed={1} />
+        <cylinderGeometry args={[0.5, 0.45, 1, 32, 1, true]} />
+        <meshStandardMaterial color="white" side={2} />
       </mesh>
 
+      {/* Bottom cap */}
+      <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, -0.5, 0]}>
+        <circleGeometry args={[0.45, 32]} />
+        <meshStandardMaterial color="white" />
+      </mesh>
+
+      {/* Handle — half torus on the side */}
+      <mesh position={[-0.45, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+        <torusGeometry args={[0.35, 0.06, 16, 32, Math.PI]} />
+        <meshStandardMaterial color="white" />
+      </mesh>
+
+      {/* Liquid inside — a disc sitting near the top */}
+      <mesh position={[0, 0.35, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <circleGeometry args={[0.48, 32]} />
+        <meshStandardMaterial color="#3B1A0A" />
+      </mesh>
+
+      <mesh position = {[0, -0.56, 0]} rotation={[-Math.PI / 1, 0, 0]}>
+        {/* <coneGeometry args={[radius, height, radialSegments, heightSegments, openEnded]} /> */}
+        <cylinderGeometry args={[0.4, 0.453, 0.2, 32]} />
+        <meshStandardMaterial color="white" />
+      </mesh>
+
+
       <mesh ref={wire_frame}>
-        <icosahedronGeometry args={[1.5, 1]} />
-        <meshBasicMaterial color="silver" wireframe />
+        <icosahedronGeometry args = {[1.5,1,0]}/>
+        <meshBasicMaterial color="white" wireframe/>
       </mesh>
 
     </group>
@@ -62,8 +90,8 @@ export default function Hero() {
           {/* <Environment preset = "city"/> */}
           
           {/* Warm cafe lighting */}
-          <hemisphereLight intensity={10} args={[0xffa500, 0x1a0e0a, 1]}/>
-          <spotLight position={[5, 5, 5]} angle={0.3} penumbra={0.5} intensity={10.5} color="#ffa500" />
+          <hemisphereLight intensity={0.3} args={[0xffeedd, 0x1a0e0a, 1]}/>
+          <spotLight position={[5, 5, 5]} angle={0.3} penumbra={0.5} intensity={1.5} color="#ffeedd" />
           <fog attach="fog" args={['#1a0e0a', 3, 10]} />
           <Environment preset="apartment" />
 
@@ -78,7 +106,7 @@ export default function Hero() {
       {/* Text overlay */}
       <div className="relative z-10">
         {/* TODO: Update the headline and tagline */}
-        <h1 className="  text-6xl font-bold tracking-tight mb-4 mix-blend-difference drop-shadow-[0_0_25px_rgba(255,255,255,0.3)]">Maru</h1>
+        <h1 className=" text-6xl font-bold tracking-tight mb-4 mix-blend-difference drop-shadow-[0_0_25px_rgba(255,255,255,0.3)]">Maru</h1>
         <ButtonRounded />
       </div>
 
