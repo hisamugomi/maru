@@ -10,14 +10,14 @@ body {
 
 @layer base {
   :root {
-    --background: oklch(55.627% 0.225 28.903);
+    --background: oklch(1 0 0);
     --foreground: oklch(0.145 0 0);
     --card: oklch(1 0 0);
     --card-foreground: oklch(0.145 0 0);
     --popover: oklch(1 0 0);
     --popover-foreground: oklch(0.145 0 0);
     --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.145 0 0);
+    --primary-foreground: oklch(0.985 0 0);
     --secondary: oklch(0.97 0 0);
     --secondary-foreground: oklch(0.205 0 0);
     --muted: oklch(0.97 0 0);
@@ -45,13 +45,13 @@ body {
   }
   .dark {
     --background: oklch(0.145 0 0);
-    --foreground: oklch(97.614% 0.00011 271.152);
+    --foreground: oklch(0.985 0 0);
     --card: oklch(0.205 0 0);
     --card-foreground: oklch(0.985 0 0);
     --popover: oklch(0.205 0 0);
     --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(53.22% 0.17416 37.319);
-    --primary-foreground: oklch(0.985 0 0);
+    --primary: oklch(68.096% 0.161 47.348);
+    --primary-foreground: oklch(0.205 0 0);
     --secondary: oklch(0.269 0 0);
     --secondary-foreground: oklch(0.985 0 0);
     --muted: oklch(0.269 0 0);
@@ -75,7 +75,6 @@ body {
     --sidebar-accent-foreground: oklch(0.985 0 0);
     --sidebar-border: oklch(1 0 0 / 10%);
     --sidebar-ring: oklch(0.556 0 0);
-    
   }
 
   @theme inline {

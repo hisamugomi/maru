@@ -1,5 +1,6 @@
 import Hero from '../components/Hero'
 import About from '../components/About'
+import Team from '../components/Team'
 import Features from '../components/Features'
 import CTA from '../components/CTA'
 
@@ -8,9 +9,10 @@ export default function App() {
     <main>
       {/* Sections — reorder or add new ones here */}
       <Hero />
-      <About />
-      <Features />
+      {/* <About /> */}
       <CTA />
+      <Team />
+      <Features />
     </main>
   )
 }
