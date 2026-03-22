@@ -1,7 +1,8 @@
 // Hero_1.jsx — Hero with 3D circular text around the wireframe
 import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls, Environment, MeshDistortMaterial, MeshWobbleMaterial, Text } from '@react-three/drei'
-import { useRef, useState, useMemo } from 'react'
+import { useRef, useState, useMemo, useEffect } from 'react'
+import { useThree } from '@react-three/fiber'
 import { Button } from "@/components/ui/button"
 import * as THREE from 'three'
 
@@ -39,7 +40,7 @@ export function ButtonRounded() {
 // ============================================================
 
 function CircularText3D({
-  text = "MARU · DESIGN · BUSINESS · MARU · DESIGN · BUSINESS · ",
+  text = "    本音が表現できる      ·       ~ 常 日     · ",
   radius = 1,          // Distance from center — match your geometry's radius
   fontSize = 0.12,     // Size of each character
   color = "silver",
@@ -60,18 +61,27 @@ function CircularText3D({
   tilt = [0,0,0]
 }) {
   const chars = useMemo(() => text.split(''), [text])
+  const ringRef = useRef()
+
+  // ── SPIN: rotate the text ring every frame ──
+  // Change the axis to match your plane:
+  //   XZ (flat):    rotation.y += speed
+  //   XY (upright): rotation.z += speed
+  //   YZ (sideways): rotation.x += speed
+  // Change the number to control speed:
+  //   0.005 = slow and elegant
+  //   0.01  = moderate
+  //   0.02  = fast
+  // Use negative (-0.005) to reverse direction
+  useFrame(() => {
+    if (ringRef.current) {
+      ringRef.current.rotation.z += 0.0002    }
+  })
 
   return (
-    // ── GROUP: controls the ring's position and tilt ──
-    // position: [left/right, up/down, forward/back]
-    // rotation: [X-tilt, Y-tilt, Z-tilt] in radians
-    //   Quick radian reference:
-    //     Math.PI / 6  = 30°
-    //     Math.PI / 4  = 45°
-    //     Math.PI / 3  = 60°
-    //     Math.PI / 2  = 90°
-    //     Math.PI      = 180°
     <group position={[0, yOffset, 0]} rotation={tilt}>
+      {/* Inner group that spins */}
+      <group ref={ringRef}>
       {chars.map((char, i) => {
         // ── ANGLE: where this letter sits on the circle ──
         // i / chars.length = fraction around the circle (0.0 to 1.0)
@@ -121,8 +131,36 @@ function CircularText3D({
           </Text>
         )
       })}
+      </group>
     </group>
   )
+}
+
+// Adjusts camera distance based on screen width
+// Desktop (wide) = closer to the ring, Mobile (narrow) = farther away
+function ResponsiveCamera() {
+  const { camera } = useThree()
+
+  useEffect(() => {
+    function updateCamera() {
+      const isMobile = window.innerWidth < 768 // 768px = typical tablet/mobile breakpoint
+
+      if (isMobile) {
+        // Mobile: pull camera back so the full ring is visible on small screens
+        camera.position.set(-1, 2, -5)
+      } else {
+        // Desktop: closer for a more immersive, detailed view
+        camera.position.set(0.6, 0.2, -2.8)
+      }
+      camera.updateProjectionMatrix()
+    }
+
+    updateCamera() // run once on mount
+    window.addEventListener('resize', updateCamera)
+    return () => window.removeEventListener('resize', updateCamera)
+  }, [camera])
+
+  return null // this component doesn't render anything visible
 }
 
 // The 3D shape that spins in the background
@@ -131,7 +169,7 @@ function Shape() {
   const wire_frame = useRef()
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime()
-    sphere.current.rotation.y += 0.001
+    // sphere.current.rotation.y += 0.001
     wire_frame.current.rotation.y += 0.0002
     wire_frame.current.rotation.x += 0.0002
   })
@@ -145,7 +183,7 @@ function Shape() {
       </mesh>
 
       <mesh ref={wire_frame}>
-        <icosahedronGeometry args={[1.5, 1]} />
+        <icosahedronGeometry args={[0, 1]} />
         <meshBasicMaterial color="silver" wireframe />
       </mesh>
 
@@ -168,13 +206,14 @@ export default function Hero() {
 
       {/* Canvas */}
       <div className={`absolute inset-0 ${orbitEnabled ? '' : 'pointer-events-none'}`}>
-        <Canvas camera={{ position: [0, 1.5, 3] }}>
+        <Canvas camera={{ position: [-1, 2, -3] }}>
           {/* Warm cafe lighting */}
           <hemisphereLight intensity={10} args={[0xffa500, 0x1a0e0a, 1]}/>
           <spotLight position={[5, 5, 5]} angle={0.3} penumbra={0.5} intensity={10.5} color="#ffa500" />
           <fog attach="fog" args={['#1a0e0a', 3, 10]} />
           <Environment preset="apartment" />
 
+          <ResponsiveCamera />
           <Shape />
 
           {orbitEnabled && <OrbitControls enableZoom={false} />}
@@ -183,7 +222,7 @@ export default function Hero() {
 
       {/* Text overlay */}
       <div className="relative z-10">
-        <h1 className="text-6xl font-bold tracking-tight mb-4 mix-blend-difference drop-shadow-[0_0_25px_rgba(255,255,255,0.3)]">Maru</h1>
+        <h1 className="text-6xl font-bold tracking-tight mb-4 mix-blend-difference drop-shadow-[0_0_25px_rgba(255,255,255,0.3)]">MARU</h1>
         <ButtonRounded />
       </div>
 
