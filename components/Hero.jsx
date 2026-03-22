@@ -35,6 +35,7 @@ function Shape() {
       <mesh>
         <torusGeometry args={[1, 0.09, 32, 100,10]} />
         <MeshWobbleMaterial color="silver" factor={0.5} speed={1} />
+        <MeshDistortMaterial color="silver" factor={0.2} speed={1} />
       </mesh>
 
       <mesh ref={wire_frame}>
@@ -78,7 +79,7 @@ export default function Hero() {
       {/* Text overlay */}
       <div className="relative z-10">
         {/* TODO: Update the headline and tagline */}
-        <h1 className="  text-6xl font-bold tracking-tight mb-4 mix-blend-difference drop-shadow-[0_0_25px_rgba(255,255,255,0.3)]">Maru</h1>
+        <h1 className="  text-6xl font-bold tracking-tight mb-4 mix-blend-difference drop-shadow-[0_0_25px_rgba(255,255,255,0.3)]">MARU</h1>
         <ButtonRounded />
       </div>
 
