@@ -207,7 +207,7 @@ function Shape() {
 }
 
 export default function Hero() {
-  const [orbitEnabled, setOrbitEnabled] = useState(true)
+  const [orbitEnabled, setOrbitEnabled] = useState(false)
   return (
     <section className="relative h-200 flex items-center justify-center text-center px-6">
 

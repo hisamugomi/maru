@@ -7,7 +7,7 @@ export default function CTA() {
     // <section className="py-24 px-40 text-left" id ="project">
     <section className="max-w-2xl mx-auto py-24 px-5 text-left">
 
-      <h2 className="text-3xl font-semibold mb-4">事業内容</h2>
+      <h2 className="text-3xl font-semibold mb-4" id="project">事業内容</h2>
             <p className="text-gray-400 mb-8">
         {/* TODO: Update copy and wire up the button to a form or link */}
       </p>
