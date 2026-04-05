@@ -143,7 +143,7 @@ function ResponsiveCamera() {
         camera.position.set(-1, 2, -3)
       } else {
         // Desktop: closer for a more immersive, detailed view
-        camera.position.set(0.6, 0.2, -2.8)
+        camera.position.set(-1, 2, -2.8)
       }
       camera.updateProjectionMatrix()
     }
